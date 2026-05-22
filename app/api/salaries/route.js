@@ -1,6 +1,7 @@
-// app/api/salaries/route.js
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient();
 
 const ALLOWED_SORT = [
   "company",
@@ -25,7 +26,6 @@ export async function GET(request) {
   const dir = searchParams.get("dir") === "asc" ? "asc" : "desc";
   const limit = Math.min(parseInt(searchParams.get("limit") || "500"), 1000);
 
-  // Validate sort field to prevent injection
   const sortBy = ALLOWED_SORT.includes(sort) ? sort : "total_compensation";
 
   const where = {};
@@ -40,7 +40,6 @@ export async function GET(request) {
       orderBy: { [sortBy]: dir },
       take: limit,
     });
-
     return NextResponse.json({ salaries, count: salaries.length });
   } catch (err) {
     console.error(err);

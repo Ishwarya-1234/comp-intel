@@ -1,12 +1,23 @@
 // app/company/[name]/page.js
-"use client";
+
+//async function getCompanyData(company) {
+//  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+//const res = await fetch(`${baseUrl}/api/company/${company}`, {
+//cache: "no-store",
+//});
+//if (!res.ok) return null;
+//return res.json();
+//}
 async function getCompanyData(company) {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-  const res = await fetch(`${baseUrl}/api/company/${company}`, {
-    cache: "no-store",
-  });
-  if (!res.ok) return null;
-  return res.json();
+  try {
+    const res = await fetch(`http://localhost:3000/api/company/${company}`, {
+      cache: "no-store",
+    });
+    if (!res.ok) return null;
+    return res.json();
+  } catch {
+    return null;
+  }
 }
 
 function fmt(n) {
@@ -25,6 +36,7 @@ const LEVEL_COLORS = {
 };
 
 export default async function CompanyPage({ params }) {
+  const { name } = await params;
   const company = decodeURIComponent(params.name).toLowerCase().trim();
   const data = await getCompanyData(company);
 
