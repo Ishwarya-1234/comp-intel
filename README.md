@@ -23,21 +23,22 @@ Think of it as India's version of **levels.fyi**.
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | Next.js 14 (App Router) |
-| Backend | Next.js API Routes |
-| Database (Local) | SQLite via Prisma |
-| Database (Production) | Neon PostgreSQL |
-| ORM | Prisma |
-| Styling | Tailwind CSS |
-| Deployment | Vercel |
+| Layer                 | Technology              |
+| --------------------- | ----------------------- |
+| Frontend              | Next.js 14 (App Router) |
+| Backend               | Next.js API Routes      |
+| Database (Local)      | SQLite via Prisma       |
+| Database (Production) | Neon PostgreSQL         |
+| ORM                   | Prisma                  |
+| Styling               | Tailwind CSS            |
+| Deployment            | Vercel                  |
 
 ---
 
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js v18+
 - npm
 
@@ -115,6 +116,7 @@ Live URL: [comp-intel.vercel.app](https://comp-intel.vercel.app)
 ## Why CompLevel?
 
 Salary transparency is low in the Indian tech industry. Most professionals don't know:
+
 - Am I being underpaid for my level?
 - What does Google pay an L5 vs Microsoft?
 - How does stock compensation compare across companies?
