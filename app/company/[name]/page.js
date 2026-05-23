@@ -8,16 +8,35 @@
 //if (!res.ok) return null;
 //return res.json();
 //}
+import prisma from "../../../lib/prisma";
+
 async function getCompanyData(company) {
-  try {
-    const res = await fetch(`http://localhost:3000/api/company/${company}`, {
-      cache: "no-store",
-    });
-    if (!res.ok) return null;
-    return res.json();
-  } catch {
-    return null;
-  }
+  const salaries = await prisma.salary.findMany({
+    where: { company },
+    orderBy: { total_compensation: "desc" },
+  });
+  if (!salaries.length) return null;
+  const total = salaries.length;
+  const sorted = [...salaries].sort(
+    (a, b) => a.total_compensation - b.total_compensation,
+  );
+  const mid = Math.floor(sorted.length / 2);
+  const median =
+    sorted.length % 2 === 0
+      ? (sorted[mid - 1].total_compensation + sorted[mid].total_compensation) /
+        2
+      : sorted[mid].total_compensation;
+  return {
+    total_entries: total,
+    median_compensation: median,
+    avg_base: Math.round(
+      salaries.reduce((s, r) => s + r.base_salary, 0) / total,
+    ),
+    avg_bonus: Math.round(salaries.reduce((s, r) => s + r.bonus, 0) / total),
+    avg_stock: Math.round(salaries.reduce((s, r) => s + r.stock, 0) / total),
+    level_distribution: [],
+    salaries,
+  };
 }
 
 function fmt(n) {
