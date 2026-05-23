@@ -16,6 +16,7 @@ async function getCompanyData(company) {
     orderBy: { total_compensation: "desc" },
   });
   if (!salaries.length) return null;
+
   const total = salaries.length;
   const sorted = [...salaries].sort(
     (a, b) => a.total_compensation - b.total_compensation,
@@ -26,6 +27,23 @@ async function getCompanyData(company) {
       ? (sorted[mid - 1].total_compensation + sorted[mid].total_compensation) /
         2
       : sorted[mid].total_compensation;
+
+  const levelMap = {};
+  for (const s of salaries) {
+    if (!levelMap[s.level]) levelMap[s.level] = [];
+    levelMap[s.level].push(s.total_compensation);
+  }
+
+  const level_distribution = ["L3", "L4", "L5", "L6", "L7"]
+    .filter((l) => levelMap[l])
+    .map((l) => ({
+      level: l,
+      count: levelMap[l].length,
+      median_tc: levelMap[l].sort((a, b) => a - b)[
+        Math.floor(levelMap[l].length / 2)
+      ],
+    }));
+
   return {
     total_entries: total,
     median_compensation: median,
@@ -34,7 +52,7 @@ async function getCompanyData(company) {
     ),
     avg_bonus: Math.round(salaries.reduce((s, r) => s + r.bonus, 0) / total),
     avg_stock: Math.round(salaries.reduce((s, r) => s + r.stock, 0) / total),
-    level_distribution: [],
+    level_distribution,
     salaries,
   };
 }
