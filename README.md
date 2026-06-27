@@ -109,7 +109,7 @@ comp-intel/
 
 This project is deployed on **Vercel** with **Neon PostgreSQL** as the production database.
 
-Live URL: [comp-intel.vercel.app](https://comp-intel.vercel.app)
+Live URL: [[comp-intel.vercel.app](https://comp-intel.vercel.app)](https://comp-intel-kta4.vercel.app/)
 
 ---
 
